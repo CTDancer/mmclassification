@@ -6,6 +6,12 @@ log_config = dict(
     hooks=[
         dict(type='TextLoggerHook'),
         # dict(type='TensorboardLoggerHook')
+        dict(
+            type='WandbLoggerHook',
+            init_kwargs=dict(
+                project='MMClassification'
+            )
+        )
     ])
 # yapf:enable
 

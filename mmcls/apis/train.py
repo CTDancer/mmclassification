@@ -5,6 +5,7 @@ import warnings
 import numpy as np
 import torch
 import torch.distributed as dist
+
 from mmcv.runner import (DistSamplerSeedHook, Fp16OptimizerHook,
                          build_optimizer, build_runner, get_dist_info)
 
@@ -205,26 +206,26 @@ def train_model(model,
     if distributed and cfg.runner['type'] == 'EpochBasedRunner':
         runner.register_hook(DistSamplerSeedHook())
 
-    # register eval hooks
-    if validate:
-        val_dataset = build_dataset(cfg.data.val, dict(test_mode=True))
-        # The specific dataloader settings
-        val_loader_cfg = {
-            **loader_cfg,
-            'shuffle': False,  # Not shuffle by default
-            'sampler_cfg': None,  # Not use sampler by default
-            'drop_last': False,  # Not drop last by default
-            **cfg.data.get('val_dataloader', {}),
-        }
-        val_dataloader = build_dataloader(val_dataset, **val_loader_cfg)
-        eval_cfg = cfg.get('evaluation', {})
-        eval_cfg['by_epoch'] = cfg.runner['type'] != 'IterBasedRunner'
-        eval_hook = DistEvalHook if distributed else EvalHook
-        # `EvalHook` needs to be executed after `IterTimerHook`.
-        # Otherwise, it will cause a bug if use `IterBasedRunner`.
-        # Refers to https://github.com/open-mmlab/mmcv/issues/1261
-        runner.register_hook(
-            eval_hook(val_dataloader, **eval_cfg), priority='LOW')
+    # # register eval hooks
+    # if validate:
+    #     val_dataset = build_dataset(cfg.data.val, dict(test_mode=True))
+    #     # The specific dataloader settings
+    #     val_loader_cfg = {
+    #         **loader_cfg,
+    #         'shuffle': False,  # Not shuffle by default
+    #         'sampler_cfg': None,  # Not use sampler by default
+    #         'drop_last': False,  # Not drop last by default
+    #         **cfg.data.get('val_dataloader', {}),
+    #     }
+    #     val_dataloader = build_dataloader(val_dataset, **val_loader_cfg)
+    #     eval_cfg = cfg.get('evaluation', {})
+    #     eval_cfg['by_epoch'] = cfg.runner['type'] != 'IterBasedRunner'
+    #     eval_hook = DistEvalHook if distributed else EvalHook
+    #     # `EvalHook` needs to be executed after `IterTimerHook`.
+    #     # Otherwise, it will cause a bug if use `IterBasedRunner`.
+    #     # Refers to https://github.com/open-mmlab/mmcv/issues/1261
+    #     runner.register_hook(
+    #         eval_hook(val_dataloader, **eval_cfg), priority='LOW')
 
     if cfg.resume_from:
         runner.resume(cfg.resume_from)

@@ -189,6 +189,16 @@ def main():
             config=cfg.pretty_text,
             CLASSES=datasets[0].CLASSES))
 
+    # keep all the information
+    if args.local_rank == 0:
+        for hook in cfg.log_config.hooks:
+            if hook['type'] == 'WandbLoggerHook':
+                hook['init_kwargs']['config'] = copy.deepcopy(cfg)
+            elif hook['type'] == 'NeptuneLoggerHook':
+                hook['init_kwargs']['config'] = copy.deepcopy(cfg)
+            elif hook['type'] == 'WandbLoggerHookWithVal':
+                hook['init_kwargs']['config'] = copy.deepcopy(cfg)
+
     # add an attribute for visualization convenience
     train_model(
         model,

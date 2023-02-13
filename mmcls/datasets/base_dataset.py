@@ -13,6 +13,8 @@ from mmcls.core.evaluation import precision_recall_f1, support
 from mmcls.models.losses import accuracy
 from .pipelines import Compose
 
+from sklearn.metrics import roc_auc_score
+# import pdb
 
 def expanduser(path):
     if isinstance(path, (str, PathLike)):
@@ -23,6 +25,7 @@ def expanduser(path):
 
 class BaseDataset(Dataset, metaclass=ABCMeta):
     """Base dataset.
+    
 
     Args:
         data_prefix (str): the prefix of data path
@@ -152,11 +155,14 @@ class BaseDataset(Dataset, metaclass=ABCMeta):
         else:
             metrics = metric
         allowed_metrics = [
-            'accuracy', 'precision', 'recall', 'f1_score', 'support'
+            'accuracy', 'precision', 'recall', 'f1_score', 'support', 'auc'
         ]
         eval_results = {}
+
+        # pdb.set_trace()
+        y_pred = [x[0] for x in results]
         results = np.vstack(results)
-        gt_labels = self.get_gt_labels()
+        gt_labels = self.get_gt_labels() # gt_labels = array([1, 1, 1, ..., 0, 0, 0]) len(gt_labels) = 98904
         if indices is not None:
             gt_labels = gt_labels[indices]
         num_imgs = len(results)
@@ -170,6 +176,12 @@ class BaseDataset(Dataset, metaclass=ABCMeta):
         topk = metric_options.get('topk', (1, 5))
         thrs = metric_options.get('thrs')
         average_mode = metric_options.get('average_mode', 'macro')
+
+        if 'auc' in metrics:
+            y_true = gt_labels # actual class labels
+
+            auc = roc_auc_score(y_true, y_pred)
+            eval_results = {'AUC': auc}
 
         if 'accuracy' in metrics:
             if thrs is not None:
