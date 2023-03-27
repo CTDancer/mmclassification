@@ -9,5 +9,7 @@ model = dict(
         style='pytorch'),
     neck=dict(type='GlobalAveragePooling'),
     head=dict(
-        type='MultiLabelClsHead',
+        type='MultiLabelLinearClsHead',
+        num_classes=14,
+        in_channels=512
     ))

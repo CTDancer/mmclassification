@@ -1,0 +1,66 @@
+diff --git a/configs/_base_/datasets/MIMIC.py b/configs/_base_/datasets/MIMIC.py
+deleted file mode 100644
+index 8466ede..0000000
+--- a/configs/_base_/datasets/MIMIC.py
++++ /dev/null
+@@ -1,48 +0,0 @@
+-# dataset settings
+-dataset_type = 'MIMIC'
+-classes = [str(i) for i in range(14)]
+-
+-img_norm_cfg = dict(
+-    mean=[0.485, 0.456, 0.406],
+-    std=[0.229, 0.224, 0.225],
+-    to_rgb=False)
+-train_pipeline = [
+-    dict(type='LoadImageFromFile'),
+-    dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
+-    dict(type='Rotate', angle=15., prob=1),
+-    dict(type='Resize', size=224),
+-    dict(type='Normalize', **img_norm_cfg),
+-    dict(type='ImageToTensor', keys=['img']),
+-    dict(type='ToTensor', keys=['gt_label']),
+-    dict(type='Collect', keys=['img', 'gt_label'])
+-]
+-test_pipeline = [
+-    dict(type='LoadImageFromFile'),
+-    dict(type='Resize', size=224),
+-    dict(type='Normalize', **img_norm_cfg),
+-    dict(type='ImageToTensor', keys=['img']),
+-    dict(type='ToTensor', keys=['gt_label']),
+-    dict(type='Collect', keys=['img', 'gt_label'])
+-]
+-data = dict(
+-    samples_per_gpu=512, # batch size
+-    workers_per_gpu=4,
+-    train=dict(
+-        type=dataset_type,
+-        data_prefix='/shared/dqwang/scratch/tongchen/MIMIC/train',
+-        ann_file='/shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/train.txt',
+-        classes=classes,
+-        pipeline=train_pipeline),
+-    val=dict(
+-        type=dataset_type,
+-        data_prefix='/shared/dqwang/scratch/tongchen/MIMIC/test',
+-        ann_file='/shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/test.txt',
+-        pipeline=test_pipeline),
+-    test=dict(
+-        type=dataset_type,
+-        data_prefix='/shared/dqwang/scratch/tongchen/MIMIC/test',
+-        ann_file='/shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/test.txt',
+-        classes=classes,
+-        pipeline=test_pipeline,
+-        test_mode=True))
+-evaluation = dict(interval=1, metric='bag_class_accuracy')
+\ No newline at end of file
+diff --git a/configs/resnet/resnet18_4x512_mimic.py b/configs/resnet/resnet18_4x512_mimic.py
+index 5cd96c9..0bdcf40 100644
+--- a/configs/resnet/resnet18_4x512_mimic.py
++++ b/configs/resnet/resnet18_4x512_mimic.py
+@@ -1,5 +1,5 @@
+ _base_ = [
+-    '../_base_/models/resnet18_mimic.py', '../_base_/datasets/MIMIC.py',
++    '../_base_/models/resnet18_mimic.py', '../_base_/datasets/mimic.py',
+     '../_base_/schedules/imagenet_bs1024_coslr.py', '../_base_/default_runtime.py'
+ ]
+ 

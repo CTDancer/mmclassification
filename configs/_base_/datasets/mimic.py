@@ -1,5 +1,6 @@
 # dataset settings
 dataset_type = 'MIMIC'
+# dataset_type = 'ImageNet'
 classes = [str(i) for i in range(14)]
 
 img_norm_cfg = dict(
