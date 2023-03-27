@@ -10,6 +10,7 @@ from .dataset_wrappers import (ClassBalancedDataset, ConcatDataset,
                                KFoldDataset, RepeatDataset)
 from .imagenet import ImageNet
 from .imagenet21k import ImageNet21k
+from .mimic import MIMIC
 from .mnist import MNIST, FashionMNIST
 from .multi_label import MultiLabelDataset
 from .samplers import DistributedSampler, RepeatAugSampler
@@ -17,7 +18,7 @@ from .stanford_cars import StanfordCars
 from .voc import VOC
 
 __all__ = [
-    'BaseDataset', 'ImageNet', 'CIFAR10', 'CIFAR100', 'CRC', 'MNIST', 'FashionMNIST',
+    'BaseDataset', 'ImageNet', 'CIFAR10', 'CIFAR100', 'CRC', 'MIMIC', 'MNIST', 'FashionMNIST',
     'VOC', 'MultiLabelDataset', 'build_dataloader', 'build_dataset',
     'DistributedSampler', 'ConcatDataset', 'RepeatDataset',
     'ClassBalancedDataset', 'DATASETS', 'PIPELINES', 'ImageNet21k', 'SAMPLERS',
