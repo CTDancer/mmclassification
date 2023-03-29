@@ -3,7 +3,7 @@ _base_ = [
     '../_base_/schedules/imagenet_bs1024_coslr.py', '../_base_/default_runtime.py'
 ]
 
-optimizer = dict(type='SGD', lr=1e-5, momentum=0.9, weight_decay=1e-4)
+optimizer = dict(type='SGD', lr=1e-4, momentum=0.9, weight_decay=1e-4)
 runner = dict(type='EpochBasedRunner', max_epochs=50)
 
 log_config = dict(
