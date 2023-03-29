@@ -1,0 +1,200 @@
+{
+    "os": "Linux-5.4.0-92-generic-x86_64-with-glibc2.35",
+    "python": "3.9.7",
+    "heartbeatAt": "2023-03-29T02:14:36.538148",
+    "startedAt": "2023-03-29T02:14:35.519321",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--local_rank=0",
+        "./configs/resnet/resnet50_4xb512_mimic.py",
+        "--launcher",
+        "pytorch",
+        "--work-dir",
+        "work_dirs/train2"
+    ],
+    "state": "running",
+    "program": "/home/dqwang/scratch/tongchen/mmclassification/./tools/train.py",
+    "codePath": "tools/train.py",
+    "git": {
+        "remote": "https://github.com/CTDancer/mmclassification",
+        "commit": "562b10a91306b779f08917afabe24f1673dbd485"
+    },
+    "email": "1163711472@qq.com",
+    "root": "/home/dqwang/scratch/tongchen/mmclassification",
+    "host": "leviathan",
+    "username": "dqwang",
+    "executable": "/home/dqwang/anaconda3/envs/distillation_ct/bin/python",
+    "cpu_count": 12,
+    "cpu_count_logical": 24,
+    "cpu_freq": {
+        "current": 2301.3201666666664,
+        "min": 1200.0,
+        "max": 3100.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2585.932,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2596.123,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.647,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.85,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.921,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.927,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2508.164,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2590.965,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2577.071,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2354.335,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2582.827,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2586.545,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2600.134,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2600.308,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.918,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.92,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.925,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.918,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.984,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.799,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2600.378,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2600.026,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2600.022,
+            "min": 1200.0,
+            "max": 3100.0
+        },
+        {
+            "current": 2599.934,
+            "min": 1200.0,
+            "max": 3100.0
+        }
+    ],
+    "disk": {
+        "total": 395.293701171875,
+        "used": 16.9896240234375
+    },
+    "gpu": "NVIDIA Tesla K80",
+    "gpu_count": 8,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        },
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        },
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        },
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        },
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        },
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        },
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        },
+        {
+            "name": "NVIDIA Tesla K80",
+            "memory_total": 12799574016
+        }
+    ],
+    "memory": {
+        "total": 251.85456085205078
+    }
+}

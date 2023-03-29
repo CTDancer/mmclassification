@@ -1,0 +1,358 @@
+wandb_version: 1
+
+_cfg_dict:
+  desc: null
+  value:
+    checkpoint_config:
+      interval: 1
+    classes:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
+    - '7'
+    - '8'
+    - '9'
+    - '10'
+    - '11'
+    - '12'
+    - '13'
+    data:
+      samples_per_gpu: 32
+      test:
+        ann_file: /shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/test.txt
+        classes:
+        - '0'
+        - '1'
+        - '2'
+        - '3'
+        - '4'
+        - '5'
+        - '6'
+        - '7'
+        - '8'
+        - '9'
+        - '10'
+        - '11'
+        - '12'
+        - '13'
+        data_prefix: /shared/dqwang/scratch/tongchen/MIMIC/test
+        pipeline:
+        - type: LoadImageFromFile
+        - size: 224
+          type: Resize
+        - mean:
+          - 0.485
+          - 0.456
+          - 0.406
+          std:
+          - 0.229
+          - 0.224
+          - 0.225
+          to_rgb: false
+          type: Normalize
+        - keys:
+          - img
+          type: ImageToTensor
+        - keys:
+          - gt_label
+          type: ToTensor
+        - keys:
+          - img
+          type: Collect
+        test_mode: true
+        type: MIMIC
+      train:
+        ann_file: /shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/train.txt
+        classes:
+        - '0'
+        - '1'
+        - '2'
+        - '3'
+        - '4'
+        - '5'
+        - '6'
+        - '7'
+        - '8'
+        - '9'
+        - '10'
+        - '11'
+        - '12'
+        - '13'
+        data_prefix: /shared/dqwang/scratch/tongchen/MIMIC/train
+        pipeline:
+        - type: LoadImageFromFile
+        - direction: horizontal
+          flip_prob: 0.5
+          type: RandomFlip
+        - angle: 15.0
+          prob: 1
+          type: Rotate
+        - size: 224
+          type: Resize
+        - mean:
+          - 0.485
+          - 0.456
+          - 0.406
+          std:
+          - 0.229
+          - 0.224
+          - 0.225
+          to_rgb: false
+          type: Normalize
+        - keys:
+          - img
+          type: ImageToTensor
+        - keys:
+          - gt_label
+          type: ToTensor
+        - keys:
+          - img
+          - gt_label
+          type: Collect
+        type: MIMIC
+      val:
+        ann_file: /shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/test.txt
+        data_prefix: /shared/dqwang/scratch/tongchen/MIMIC/test
+        pipeline:
+        - type: LoadImageFromFile
+        - size: 224
+          type: Resize
+        - mean:
+          - 0.485
+          - 0.456
+          - 0.406
+          std:
+          - 0.229
+          - 0.224
+          - 0.225
+          to_rgb: false
+          type: Normalize
+        - keys:
+          - img
+          type: ImageToTensor
+        - keys:
+          - gt_label
+          type: ToTensor
+        - keys:
+          - img
+          type: Collect
+        type: MIMIC
+      workers_per_gpu: 4
+    dataset_type: MIMIC
+    device: cuda
+    dist_params:
+      backend: nccl
+    evaluation:
+      interval: 1
+      metric: bag_class_accuracy
+    gpu_ids:
+    - 0
+    - 1
+    - 2
+    - 3
+    img_norm_cfg:
+      mean:
+      - 0.485
+      - 0.456
+      - 0.406
+      std:
+      - 0.229
+      - 0.224
+      - 0.225
+      to_rgb: false
+    load_from: /shared/dqwang/scratch/tongchen/resnet50_8xb32.pth
+    log_config:
+      hooks:
+      - init_kwargs:
+          entity: tongchen
+          name: train
+          project: Distillaiton_MIMIC_MMCLS
+        type: WandbLoggerHook
+      interval: 100
+    log_level: INFO
+    lr_config:
+      min_lr: 0
+      policy: CosineAnnealing
+      warmup: linear
+      warmup_by_epoch: true
+      warmup_iters: 5
+      warmup_ratio: 0.1
+    model:
+      backbone:
+        depth: 50
+        num_stages: 4
+        out_indices:
+        - 3
+        style: pytorch
+        type: ResNet
+      head:
+        in_channels: 2048
+        num_classes: 14
+        type: MultiLabelLinearClsHead
+      neck:
+        type: GlobalAveragePooling
+      type: ImageClassifier
+    optimizer:
+      lr: 1.0e-05
+      momentum: 0.9
+      type: SGD
+      weight_decay: 0.0001
+    optimizer_config:
+      grad_clip: null
+    resume_from: null
+    runner:
+      max_epochs: 50
+      type: EpochBasedRunner
+    seed: 1978142183
+    test_pipeline:
+    - type: LoadImageFromFile
+    - size: 224
+      type: Resize
+    - mean:
+      - 0.485
+      - 0.456
+      - 0.406
+      std:
+      - 0.229
+      - 0.224
+      - 0.225
+      to_rgb: false
+      type: Normalize
+    - keys:
+      - img
+      type: ImageToTensor
+    - keys:
+      - gt_label
+      type: ToTensor
+    - keys:
+      - img
+      type: Collect
+    train_pipeline:
+    - type: LoadImageFromFile
+    - direction: horizontal
+      flip_prob: 0.5
+      type: RandomFlip
+    - angle: 15.0
+      prob: 1
+      type: Rotate
+    - size: 224
+      type: Resize
+    - mean:
+      - 0.485
+      - 0.456
+      - 0.406
+      std:
+      - 0.229
+      - 0.224
+      - 0.225
+      to_rgb: false
+      type: Normalize
+    - keys:
+      - img
+      type: ImageToTensor
+    - keys:
+      - gt_label
+      type: ToTensor
+    - keys:
+      - img
+      - gt_label
+      type: Collect
+    work_dir: work_dirs/train2
+    workflow:
+    - - train
+      - 1
+_filename:
+  desc: null
+  value: ./configs/resnet/resnet50_4xb32_mimic.py
+_text:
+  desc: null
+  value: "/home/dqwang/scratch/tongchen/mmclassification/configs/_base_/models/resnet50_mimic.py\n\
+    # model settings\nmodel = dict(\n    type='ImageClassifier',\n    backbone=dict(\n\
+    \        type='ResNet',\n        depth=50,\n        num_stages=4,\n        out_indices=(3,\
+    \ ),\n        style='pytorch'),\n    neck=dict(type='GlobalAveragePooling'),\n\
+    \    head=dict(\n        type='MultiLabelLinearClsHead',\n        num_classes=14,\n\
+    \        in_channels=2048\n    ))\n\n/home/dqwang/scratch/tongchen/mmclassification/configs/_base_/datasets/mimic.py\n\
+    # dataset settings\ndataset_type = 'MIMIC'\n# dataset_type = 'ImageNet'\nclasses\
+    \ = [str(i) for i in range(14)]\n\nimg_norm_cfg = dict(\n    mean=[0.485, 0.456,\
+    \ 0.406],\n    std=[0.229, 0.224, 0.225],\n    to_rgb=False)\ntrain_pipeline =\
+    \ [\n    dict(type='LoadImageFromFile'),\n    dict(type='RandomFlip', flip_prob=0.5,\
+    \ direction='horizontal'),\n    dict(type='Rotate', angle=15., prob=1),\n    dict(type='Resize',\
+    \ size=224),\n    dict(type='Normalize', **img_norm_cfg),\n    dict(type='ImageToTensor',\
+    \ keys=['img']),\n    dict(type='ToTensor', keys=['gt_label']),\n    dict(type='Collect',\
+    \ keys=['img', 'gt_label'])\n]\ntest_pipeline = [\n    dict(type='LoadImageFromFile'),\n\
+    \    dict(type='Resize', size=224),\n    dict(type='Normalize', **img_norm_cfg),\n\
+    \    dict(type='ImageToTensor', keys=['img']),\n    dict(type='ToTensor', keys=['gt_label']),\n\
+    \    dict(type='Collect', keys=['img'])\n]\ndata = dict(\n    samples_per_gpu=32,\
+    \ # batch size\n    workers_per_gpu=4,\n    train=dict(\n        type=dataset_type,\n\
+    \        data_prefix='/shared/dqwang/scratch/tongchen/MIMIC/train',\n        ann_file='/shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/train.txt',\n\
+    \        classes=classes,\n        pipeline=train_pipeline),\n    val=dict(\n\
+    \        type=dataset_type,\n        data_prefix='/shared/dqwang/scratch/tongchen/MIMIC/test',\n\
+    \        ann_file='/shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/test.txt',\n\
+    \        pipeline=test_pipeline),\n    test=dict(\n        type=dataset_type,\n\
+    \        data_prefix='/shared/dqwang/scratch/tongchen/MIMIC/test',\n        ann_file='/shared/dqwang/scratch/yunkunzhang/mimic_multi-label_ann/test.txt',\n\
+    \        classes=classes,\n        pipeline=test_pipeline,\n        test_mode=True))\n\
+    evaluation = dict(interval=1, metric='bag_class_accuracy')\n/home/dqwang/scratch/tongchen/mmclassification/configs/_base_/schedules/imagenet_bs1024_coslr.py\n\
+    # optimizer\noptimizer = dict(type='SGD', lr=0.8, momentum=0.9, weight_decay=5e-5)\n\
+    optimizer_config = dict(grad_clip=None)\n# learning policy\nlr_config = dict(\n\
+    \    policy='CosineAnnealing',\n    min_lr=0,\n    warmup='linear',\n    warmup_iters=5,\n\
+    \    warmup_ratio=0.1,\n    warmup_by_epoch=True)\nrunner = dict(type='EpochBasedRunner',\
+    \ max_epochs=100)\n\n/home/dqwang/scratch/tongchen/mmclassification/configs/_base_/default_runtime.py\n\
+    # checkpoint saving\ncheckpoint_config = dict(interval=1)\n# yapf:disable\nlog_config\
+    \ = dict(\n    interval=100,\n    hooks=[\n        dict(type='TextLoggerHook'),\n\
+    \        # dict(type='TensorboardLoggerHook')\n        dict(\n            type='WandbLoggerHook',\n\
+    \            init_kwargs=dict(\n                project='MMClassification'\n \
+    \           )\n        )\n    ])\n# yapf:enable\n\ndist_params = dict(backend='nccl')\n\
+    log_level = 'INFO'\nload_from = None\nresume_from = None\nworkflow = [('train',\
+    \ 1)]\n\n/home/dqwang/scratch/tongchen/mmclassification/configs/resnet/resnet50_4xb32_mimic.py\n\
+    _base_ = [\n    '../_base_/models/resnet50_mimic.py', '../_base_/datasets/mimic.py',\n\
+    \    '../_base_/schedules/imagenet_bs1024_coslr.py', '../_base_/default_runtime.py'\n\
+    ]\n\noptimizer = dict(type='SGD', lr=1e-5, momentum=0.9, weight_decay=1e-4)\n\
+    runner = dict(type='EpochBasedRunner', max_epochs=50)\n\nlog_config = dict(\n\
+    \    interval=100,\n    hooks=[\n        # dict(type='TextLoggerHook'),\n    \
+    \    # dict(type='TensorboardLoggerHook'),\n        # dict(\n        #     type='MMClsWandbHook',\n\
+    \        #     init_kwargs=dict(\n        #         project='Distillaiton_MIMIC_MMCLS',\n\
+    \        #         entity='tongchen',\n        #         name='train'\n      \
+    \  #     ),\n        #     log_checkpoint=True,\n        #     log_checkpoint_metadata=True,\n\
+    \        # )\n        dict(\n            type='WandbLoggerHook',\n           \
+    \ init_kwargs=dict(\n                project='Distillaiton_MIMIC_MMCLS',\n   \
+    \             entity='tongchen',\n                name='train'\n            ),\n\
+    \        )\n    ])\n\nload_from = '/shared/dqwang/scratch/tongchen/resnet50_8xb32.pth'"
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.14.0
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: true
+    python_version: 3.9.7
+    start_time: 1680059313.885792
+    t:
+      1:
+      - 1
+      - 5
+      - 37
+      - 41
+      - 53
+      - 55
+      - 62
+      2:
+      - 1
+      - 5
+      - 37
+      - 41
+      - 53
+      - 55
+      - 62
+      3:
+      - 13
+      - 16
+      - 23
+      4: 3.9.7
+      5: 0.14.0
+      8:
+      - 2
+      - 5

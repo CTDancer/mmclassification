@@ -23,10 +23,10 @@ test_pipeline = [
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
     dict(type='ToTensor', keys=['gt_label']),
-    dict(type='Collect', keys=['img', 'gt_label'])
+    dict(type='Collect', keys=['img'])
 ]
 data = dict(
-    samples_per_gpu=512, # batch size
+    samples_per_gpu=32, # batch size
     workers_per_gpu=4,
     train=dict(
         type=dataset_type,

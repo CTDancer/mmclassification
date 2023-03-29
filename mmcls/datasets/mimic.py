@@ -6,7 +6,6 @@ import random
 from sklearn.metrics import roc_auc_score
 from .multi_label import MultiLabelDataset
 from .builder import DATASETS
-import wandb
 
 
 @DATASETS.register_module()
@@ -168,8 +167,5 @@ class MIMIC(MultiLabelDataset):
             for i in range(len(self.CLASSES)):
                 auc = roc_auc_score(gt_labels[:, i], results[:, i])
                 eval_results.update({f'auc_{i}': auc})
-
-        print(eval_results)
-        wandb.log("{}: {}".format(eval_results.key, eval_results.val))
 
         return eval_results
