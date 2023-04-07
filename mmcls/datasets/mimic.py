@@ -99,7 +99,7 @@ class MIMIC(MultiLabelDataset):
         allowed_metrics = [
             'accuracy', 'class_accuracy', 'mean_accuracy', 'auc', 'class_auc',
             'bag_accuracy', 'bag_class_accuracy', 'mean_bag_accuracy', 'bag_auc',
-            'bag_class_auc'
+            'bag_class_auc', 'bag_class_auc_micro', 'bag_class_auc_macro','bag_class_auc_weighted'
         ]
         eval_results = {}
         results = np.vstack(results)
@@ -144,7 +144,16 @@ class MIMIC(MultiLabelDataset):
                 for i in range(len(self.CLASSES)):
                     auc = roc_auc_score(bag_gt_labels[:, i], bag_results[:, i])
                     eval_results.update({f'bag_auc_{i}': auc})
-
+            if 'bag_class_auc_micro' in metrics:
+                auc = roc_auc_score(bag_gt_labels, bag_results, average='micro')
+                eval_results.update({'bag_class_auc_micro': auc})
+            if 'bag_class_auc_macro' in metrics:
+                auc = roc_auc_score(bag_gt_labels, bag_results, average='macro')
+                eval_results.update({'bag_class_auc_macro': auc})
+            if 'bag_class_auc_weighted' in metrics:
+                auc = roc_auc_score(bag_gt_labels, bag_results, average='weighted')
+                eval_results.update({'bag_class_auc_weighted': auc})
+                
         pos_inds = results >= thr  # only use threshold now
         true = pos_inds == gt_labels
         false = pos_inds != gt_labels

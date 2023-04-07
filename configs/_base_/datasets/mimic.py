@@ -46,4 +46,4 @@ data = dict(
         classes=classes,
         pipeline=test_pipeline,
         test_mode=True))
-evaluation = dict(interval=1, metric=['bag_class_auc','bag_class_accuracy'])
+evaluation = dict(interval=1, metric=['bag_class_auc_micro', 'bag_class_auc_macro','bag_class_auc_weighted'])

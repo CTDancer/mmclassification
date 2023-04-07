@@ -1,0 +1,1 @@
+{"train/loss": 3.4710226178169252, "learning_rate": 7.128896457825364e-05, "momentum": 0.9, "_timestamp": 1680791851, "_runtime": 10706, "_step": 45722, "val/eval_iter_num": 36, "val/bag_class_auc_micro": 0.8557192756491537, "val/bag_class_auc_macro": 0.7633842821904848, "val/bag_class_auc_weighted": 0.7855576535029035, "_wandb": {"runtime": 10748}}

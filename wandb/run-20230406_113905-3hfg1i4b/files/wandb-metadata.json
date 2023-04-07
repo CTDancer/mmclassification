@@ -1,0 +1,31 @@
+{
+    "os": "Linux-5.15.0-25-generic-x86_64-with-glibc2.35",
+    "python": "3.9.7",
+    "heartbeatAt": "2023-04-06T11:39:06.551110",
+    "startedAt": "2023-04-06T11:39:05.526138",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 2080 Ti",
+    "gpu_count": 9,
+    "cpu_count": 56,
+    "cuda": null,
+    "args": [
+        "--local_rank=0",
+        "./configs/resnet/resnet50_4xb32_mimic.py",
+        "--launcher",
+        "pytorch",
+        "--work-dir",
+        "work_dirs/train2"
+    ],
+    "state": "running",
+    "program": "/home/dqwang/scratch/tongchen/mmclassification/./tools/train.py",
+    "codePath": "tools/train.py",
+    "git": {
+        "remote": "https://github.com/CTDancer/mmclassification",
+        "commit": "609c5207f3ff4a6da008e283843df8d5e02db3c5"
+    },
+    "email": "gao3944677@126.com",
+    "root": "/home/dqwang/scratch/tongchen/mmclassification",
+    "host": "cthulhu3",
+    "username": "dqwang",
+    "executable": "/home/dqwang/anaconda3/envs/distillation_ct/bin/python"
+}
